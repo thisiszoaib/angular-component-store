@@ -13,6 +13,6 @@ export class AppComponent {
   constructor(private readonly contactsStore: ContactsStore) {}
 
   searchContacts(term: string) {
-    // this.contactsStore.patchState({ searchString: term });
+    this.contactsStore.patchState({ searchString: term });
   }
 }
