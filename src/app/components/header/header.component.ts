@@ -31,8 +31,4 @@ export class HeaderComponent implements OnInit {
   hideSearch() {
     this.search = false;
   }
-
-  ngDoCheck() {
-    console.log('Change detection run!');
-  }
 }
