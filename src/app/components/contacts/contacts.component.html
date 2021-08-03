@@ -1,0 +1,15 @@
+<div class="overflow-scroll" style="height: calc(100vh - 64px)">
+    <div *ngFor="let contact of data; let idx=index"
+        class="p-4 pl-6 border-b-2 border-gray-100 flex flex-row justify-between align-middle">
+        <div appFlyLeft>
+            <p class="text-xl">{{ contact.name }}</p>
+            <p class="text-gray-500 text-lg">{{ contact.phone }}</p>
+        </div>
+        <a class="flex items-center" [href]="'tel:' + contact.phone">
+            <span
+                class="material-icons p-3 rounded-full opacity-80 shadow-md bg-green-400 hover:opacity-100 hover:shadow-lg">
+                phone
+            </span>
+        </a>
+    </div>
+</div>
