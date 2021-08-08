@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Contact } from 'src/app/models/contact.model';
+import { ContactsStore } from 'src/app/store/contacts.store';
 
 @Component({
   selector: 'app-contacts',
@@ -8,9 +10,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export class ContactsComponent implements OnInit {
   @Input() data: any[];
 
-  @Output() deleteContact = new EventEmitter<{ name: string; phone: string }>();
-
-  constructor() {}
+  constructor(private contactsStore: ContactsStore) {}
 
   ngOnInit(): void {}
+
+  deleteContact(contact: Contact) {
+    this.contactsStore.deleteContact(contact);
+  }
 }

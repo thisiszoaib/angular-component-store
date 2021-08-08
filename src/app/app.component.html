@@ -1,2 +1,2 @@
-<app-header (searchContacts)="searchContacts($event)" (addContact)="addContact()"></app-header>
-<app-contacts [data]="filteredContacts" (deleteContact)="deleteContact($event)"></app-contacts>
+<app-header></app-header>
+<app-contacts [data]="contacts$ | async"></app-contacts>
