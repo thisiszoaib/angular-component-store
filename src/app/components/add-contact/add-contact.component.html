@@ -1,0 +1,9 @@
+<div class="p-6 flex flex-col">
+    <h2 class="text-2xl mb-6">Add New Contact</h2>
+    <input [(ngModel)]="name" class="rounded-md mb-3" type="text" placeholder="Name">
+    <input [(ngModel)]="phone" class="rounded-md mb-6" type="number" placeholder="Phone">
+
+    <button class="bg-indigo-500 rounded-lg p-2 text-white" (click)="add()">
+        ADD
+    </button>
+</div>
