@@ -5,7 +5,6 @@ import {
   EventEmitter,
   ViewChild,
   ElementRef,
-  Renderer2,
 } from '@angular/core';
 
 @Component({
@@ -17,10 +16,11 @@ export class HeaderComponent implements OnInit {
   @ViewChild('mainIcon') mainIcon: ElementRef;
 
   @Output() searchContacts = new EventEmitter<string>();
+  @Output() addContact = new EventEmitter<any>();
 
   search = false;
 
-  constructor(private renderer: Renderer2) {}
+  constructor() {}
 
   ngOnInit(): void {}
 
@@ -30,9 +30,5 @@ export class HeaderComponent implements OnInit {
 
   hideSearch() {
     this.search = false;
-  }
-
-  ngDoCheck() {
-    console.log('Change detection run!');
   }
 }

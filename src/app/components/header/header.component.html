@@ -6,6 +6,9 @@
         </span>
     </div>
     <span class="flex-grow"></span>
+    <button class="flex items-center mr-2 p-2" (click)="addContact.emit()">
+        <span class="material-icons">add_circle</span>
+    </button>
     <button *ngIf="!search" class="flex items-center" (click)="showSearch()">
         <span class="material-icons">search</span>
     </button>

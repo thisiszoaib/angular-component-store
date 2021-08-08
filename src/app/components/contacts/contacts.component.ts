@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-contacts',
@@ -7,6 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ContactsComponent implements OnInit {
   @Input() data: any[];
+
+  @Output() deleteContact = new EventEmitter<{ name: string; phone: string }>();
 
   constructor() {}
 

@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { DialogService } from '@ngneat/dialog';
+import { AddContactComponent } from './components/add-contact/add-contact.component';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -103,9 +106,27 @@ export class AppComponent {
 
   filteredContacts = [...this.contacts];
 
+  constructor(private dialog: DialogService) {}
+
   searchContacts(term: string) {
     this.filteredContacts = this.contacts.filter((c) =>
       c.name.toLowerCase().includes(term.toLowerCase())
     );
+  }
+
+  addContact() {
+    this.dialog
+      .open(AddContactComponent)
+      .afterClosed$.pipe(filter((contact) => !!contact))
+      .subscribe((newContact) => {
+        this.contacts = [newContact, ...this.contacts];
+        this.filteredContacts = [...this.contacts];
+      });
+  }
+
+  deleteContact(contact: any) {
+    const index = this.contacts.findIndex((c) => c.name === contact.name);
+    this.contacts.splice(index, 1);
+    this.filteredContacts = [...this.contacts];
   }
 }
