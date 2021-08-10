@@ -12,7 +12,5 @@ import { Contact } from './models/contact.model';
   providers: [ContactsStore],
 })
 export class AppComponent {
-  contacts$ = this.contactsStore.filteredContacts$;
-
-  constructor(private contactsStore: ContactsStore) {}
+  constructor() {}
 }

@@ -1,5 +1,5 @@
 <div class="overflow-scroll" style="height: calc(100vh - 64px)">
-    <div *ngFor="let contact of data; let idx=index"
+    <div *ngFor="let contact of contacts$ | async; let idx=index"
         class="p-4 pl-6 border-b-2 border-gray-100 flex flex-row align-middle">
         <a class="flex items-center mr-5" [href]="'tel:' + contact.phone">
             <span
@@ -12,7 +12,7 @@
             <p class="text-gray-500 text-lg">{{ contact.phone }}</p>
         </div>
         <div class="flex-grow"></div>
-        <button class="flex items-center" (click)="delContact(contact)">
+        <button class="flex items-center" (click)="deleteContact(contact)">
             <span class="material-icons p-3 opacity-80 cursor-pointer">
                 delete
             </span>

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Contact } from 'src/app/models/contact.model';
 import { ContactsStore } from 'src/app/store/contacts.store';
 
@@ -8,7 +8,7 @@ import { ContactsStore } from 'src/app/store/contacts.store';
   styleUrls: ['./contacts.component.scss'],
 })
 export class ContactsComponent implements OnInit {
-  @Input() data: any[];
+  contacts$ = this.contactsStore.filteredContacts$;
 
   constructor(private contactsStore: ContactsStore) {}
 
