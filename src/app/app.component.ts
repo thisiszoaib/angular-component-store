@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-import { DialogService } from '@ngneat/dialog';
-import { AddContactComponent } from './components/add-contact/add-contact.component';
-import { filter } from 'rxjs/operators';
 import { ContactsStore } from './store/contacts.store';
-import { Contact } from './models/contact.model';
 
 @Component({
   selector: 'app-root',
@@ -12,5 +8,9 @@ import { Contact } from './models/contact.model';
   providers: [ContactsStore],
 })
 export class AppComponent {
-  constructor() {}
+  constructor(private contactsStore: ContactsStore) {}
+
+  ngOnInit() {
+    this.contactsStore.fetchContacts(true);
+  }
 }

@@ -8,6 +8,7 @@ import { DialogModule } from '@ngneat/dialog';
 import { AddContactComponent } from './components/add-contact/add-contact.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { HotToastModule } from '@ngneat/hot-toast';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,7 @@ import { CommonModule } from '@angular/common';
     ContactsComponent,
     AddContactComponent,
   ],
-  imports: [BrowserModule, FormsModule, CommonModule, DialogModule.forRoot()],
+  imports: [BrowserModule, FormsModule, CommonModule, DialogModule.forRoot(), HotToastModule.forRoot()],
   providers: [],
   bootstrap: [AppComponent],
 })
