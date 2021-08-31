@@ -3,14 +3,7 @@ import { DialogService } from '@ngneat/dialog';
 import { HotToastService } from '@ngneat/hot-toast';
 import { ComponentStore } from '@ngrx/component-store';
 import { EMPTY, Observable } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  switchMap,
-  switchMapTo,
-  tap,
-} from 'rxjs/operators';
+import { catchError, concatMap, filter, switchMap, tap } from 'rxjs/operators';
 import { AddContactComponent } from '../components/add-contact/add-contact.component';
 import { Contact } from '../models/contact.model';
 import { ContactsService } from '../services/contacts.service';
@@ -31,6 +24,8 @@ export class ContactsStore extends ComponentStore<ContactsState> {
       contacts: [],
       searchString: '',
     });
+
+    this.fetchContacts();
   }
 
   readonly filteredContacts$: Observable<Contact[]> = this.select(
@@ -40,9 +35,14 @@ export class ContactsStore extends ComponentStore<ContactsState> {
       )
   );
 
-  readonly fetchContacts = this.effect((trigger$: Observable<boolean>) => {
-    return trigger$.pipe(
-      switchMapTo(
+  readonly setContacts = this.updater((state, contacts: Contact[]) => ({
+    ...state,
+    contacts,
+  }));
+
+  readonly fetchContacts = this.effect((trigger$) =>
+    trigger$.pipe(
+      switchMap(() =>
         this.contactsService.fetchContacts().pipe(
           this.toast.observe({
             loading: 'Fetching...',
@@ -50,19 +50,29 @@ export class ContactsStore extends ComponentStore<ContactsState> {
             error: 'Could not fetch.',
           }),
           tap((contacts: Contact[]) => {
-            this.patchState({ contacts });
+            this.setContacts(contacts);
           }),
           catchError(() => EMPTY)
         )
       )
-    );
-  });
+    )
+  );
 
-  readonly addContact = this.effect((contact$: Observable<Contact>) => {
-    return contact$.pipe(
-      switchMap((contact) =>
+  readonly showAddDialog = this.effect((trigger$) =>
+    trigger$.pipe(
+      switchMap(() => this.dialog.open(AddContactComponent).afterClosed$),
+      filter((contact) => !!contact),
+      tap((contact) => {
+        this.addContact(contact);
+      })
+    )
+  );
+
+  readonly addContact = this.effect<Contact>((contact$) =>
+    contact$.pipe(
+      concatMap((contact) =>
         this.contactsService.addContact(contact).pipe(
-          tap(() => this.fetchContacts(true)),
+          tap(() => this.fetchContacts()),
           this.toast.observe({
             loading: 'Adding contact...',
             success: 'Contact added!',
@@ -71,22 +81,22 @@ export class ContactsStore extends ComponentStore<ContactsState> {
           catchError(() => EMPTY)
         )
       )
-    );
-  });
+    )
+  );
 
-  readonly deleteContact = this.effect((contact$: Observable<Contact>) => {
-    return contact$.pipe(
-      switchMap((contact) =>
+  readonly deleteContact = this.effect<Contact>((contact$) =>
+    contact$.pipe(
+      concatMap((contact) =>
         this.contactsService.deleteContact(contact).pipe(
           this.toast.observe({
             loading: 'Deleting contact...',
             success: 'Contact deleted!',
             error: 'Could not delete.',
           }),
-          tap(() => this.fetchContacts(true)),
+          tap(() => this.fetchContacts()),
           catchError(() => EMPTY)
         )
       )
-    );
-  });
+    )
+  );
 }

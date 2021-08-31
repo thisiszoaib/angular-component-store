@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { DialogService } from '@ngneat/dialog';
-import { filter } from 'rxjs/operators';
 import { ContactsStore } from 'src/app/store/contacts.store';
-import { AddContactComponent } from '../add-contact/add-contact.component';
 
 @Component({
   selector: 'app-header',
@@ -10,14 +7,9 @@ import { AddContactComponent } from '../add-contact/add-contact.component';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-  @ViewChild('mainIcon') mainIcon: ElementRef;
-
   search = false;
 
-  constructor(
-    private contactsStore: ContactsStore,
-    private dialog: DialogService
-  ) {}
+  constructor(private contactsStore: ContactsStore) {}
 
   ngOnInit(): void {}
 
@@ -34,11 +26,6 @@ export class HeaderComponent implements OnInit {
   }
 
   addContact() {
-    this.dialog
-      .open(AddContactComponent)
-      .afterClosed$.pipe(filter((contact) => !!contact))
-      .subscribe((newContact) => {
-        this.contactsStore.addContact(newContact);
-      });
+    this.contactsStore.showAddDialog();
   }
 }

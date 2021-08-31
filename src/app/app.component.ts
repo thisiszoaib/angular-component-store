@@ -8,9 +8,5 @@ import { ContactsStore } from './store/contacts.store';
   providers: [ContactsStore],
 })
 export class AppComponent {
-  constructor(private contactsStore: ContactsStore) {}
-
-  ngOnInit() {
-    this.contactsStore.fetchContacts(true);
-  }
+  constructor() {}
 }
